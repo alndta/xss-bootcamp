@@ -54,8 +54,7 @@
                 <ul class="navbar-nav me-auto">
                     {{-- Tickets --}}
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('tickets.*') ? 'active' : '' }}" 
-                           href="{{ route('tickets.index') }}">
+                        <a class="nav-link" href="#">
                             <i class="bi bi-ticket-detailed"></i> Tickets
                         </a>
                     </li>

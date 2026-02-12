@@ -122,7 +122,13 @@ class XSSLabController extends Controller
             'content' => 'required|string|max:1000',
         ]);
 
-        // Simpan - Blade akan auto-escape saat menampilkan
+        // ✅ SECURE: Sanitasi HTML dengan strip_tags()
+        // Menghapus semua tag HTML/script dari input sebelum disimpan
+        $validated['author_name'] = strip_tags($validated['author_name']);
+        $validated['content'] = strip_tags($validated['content']);
+
+        // Simpan data yang sudah divalidasi dan disanitasi
+        // Blade akan auto-escape saat menampilkan sebagai lapisan tambahan
         Comment::create($validated);
 
         return redirect()->route('xss-lab.stored.secure')

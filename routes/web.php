@@ -3,14 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DemoBladeController;
 use App\Http\Controllers\XSSLabController;
+use App\Http\Controllers\VulnerableSearchController;
+use App\Http\Middleware\SecurityHeaders;
 
 /*
 |--------------------------------------------------------------------------
 | Routes untuk Hari 4 - Blade Templating & XSS Prevention
 |--------------------------------------------------------------------------
-|
-| Tambahkan routes ini ke file routes/web.php di proyek Laravel Anda
-|
 */
 
 // =========================================
@@ -22,6 +21,20 @@ Route::prefix('demo-blade')->name('demo-blade.')->group(function () {
     Route::get('/components', [DemoBladeController::class, 'components'])->name('components');
     Route::get('/includes', [DemoBladeController::class, 'includes'])->name('includes');
     Route::get('/stacks', [DemoBladeController::class, 'stacks'])->name('stacks');
+});
+
+// =========================================
+// VULNERABLE SEARCH - Tanpa proteksi XSS
+// =========================================
+Route::prefix('vulnerable')->name('vulnerable.')->group(function () {
+    Route::get('/search', [VulnerableSearchController::class, 'search'])->name('search');
+});
+
+// =========================================
+// SECURE SEARCH - Dengan proteksi XSS + CSP Header
+// =========================================
+Route::prefix('secure')->name('secure.')->middleware([SecurityHeaders::class])->group(function () {
+    Route::get('/search', [VulnerableSearchController::class, 'secureSearch'])->name('search');
 });
 
 // =========================================
